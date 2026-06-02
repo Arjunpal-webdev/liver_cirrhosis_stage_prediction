@@ -1,0 +1,297 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Liver Cirrhosis Stage Prediction Dashboard — Global Styles
+   Professional Healthcare Dark Theme
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* ── Root Variables ─────────────────────────────────────────────────────── */
+:root {
+  --bg-primary:    #0f172a;
+  --bg-secondary:  #1e293b;
+  --bg-card:       #1e293b;
+  --bg-card-hover: #253147;
+  --border:        rgba(148, 163, 184, 0.15);
+  --border-glow:   rgba(59, 130, 246, 0.4);
+
+  --text-primary:  #f1f5f9;
+  --text-secondary:#94a3b8;
+  --text-muted:    #64748b;
+
+  --accent-blue:   #3b82f6;
+  --accent-cyan:   #06b6d4;
+  --accent-green:  #22c55e;
+  --accent-amber:  #f59e0b;
+  --accent-red:    #ef4444;
+  --accent-purple: #a855f7;
+
+  --grad-blue:     linear-gradient(135deg, #1d4ed8, #3b82f6);
+  --grad-green:    linear-gradient(135deg, #15803d, #22c55e);
+  --grad-amber:    linear-gradient(135deg, #b45309, #f59e0b);
+  --grad-red:      linear-gradient(135deg, #b91c1c, #ef4444);
+  --grad-header:   linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 0 30px rgba(59, 130, 246, 0.15);
+  --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Base Reset & App Container ─────────────────────────────────────────── */
+.stApp {
+  background: var(--bg-primary) !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  color: var(--text-primary) !important;
+}
+
+.main .block-container {
+  padding: 1.5rem 2rem 3rem 2rem !important;
+  max-width: 1400px !important;
+}
+
+/* ── Sidebar ────────────────────────────────────────────────────────────── */
+[data-testid="stSidebar"] {
+  background: var(--bg-secondary) !important;
+  border-right: 1px solid var(--border) !important;
+}
+
+[data-testid="stSidebar"] .block-container {
+  padding: 1.5rem 1rem !important;
+}
+
+[data-testid="stSidebarContent"] {
+  background: transparent !important;
+}
+
+/* ── Typography ─────────────────────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Inter', sans-serif !important;
+  color: var(--text-primary) !important;
+  letter-spacing: -0.02em !important;
+}
+
+p, span, div, label {
+  font-family: 'Inter', sans-serif !important;
+}
+
+/* ── Streamlit Elements ─────────────────────────────────────────────────── */
+[data-testid="stMetricValue"] {
+  font-size: 2rem !important;
+  font-weight: 700 !important;
+  color: var(--accent-blue) !important;
+}
+
+[data-testid="stMetricLabel"] {
+  font-size: 0.85rem !important;
+  color: var(--text-secondary) !important;
+  font-weight: 500 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+}
+
+[data-testid="stMetricDelta"] {
+  font-size: 0.8rem !important;
+}
+
+/* Metric containers */
+[data-testid="metric-container"] {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-md) !important;
+  padding: 1rem !important;
+  transition: var(--transition) !important;
+}
+
+[data-testid="metric-container"]:hover {
+  border-color: var(--border-glow) !important;
+  box-shadow: var(--shadow-glow) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* ── Input Widgets ─────────────────────────────────────────────────────── */
+[data-testid="stNumberInput"] input,
+[data-testid="stTextInput"] input {
+  background: rgba(30, 41, 59, 0.8) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+  color: var(--text-primary) !important;
+  font-family: 'Inter', sans-serif !important;
+  transition: var(--transition) !important;
+}
+
+[data-testid="stNumberInput"] input:focus,
+[data-testid="stTextInput"] input:focus {
+  border-color: var(--accent-blue) !important;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important;
+  outline: none !important;
+}
+
+[data-testid="stSelectbox"] > div > div {
+  background: rgba(30, 41, 59, 0.8) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+  color: var(--text-primary) !important;
+}
+
+/* ── Buttons ────────────────────────────────────────────────────────────── */
+[data-testid="stButton"] button {
+  background: var(--grad-blue) !important;
+  color: white !important;
+  border: none !important;
+  border-radius: var(--radius-sm) !important;
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.02em !important;
+  padding: 0.6rem 1.5rem !important;
+  transition: var(--transition) !important;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3) !important;
+}
+
+[data-testid="stButton"] button:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4) !important;
+}
+
+[data-testid="stButton"] button:active {
+  transform: translateY(0) !important;
+}
+
+/* Download button */
+[data-testid="stDownloadButton"] button {
+  background: linear-gradient(135deg, #15803d, #22c55e) !important;
+  color: white !important;
+  border: none !important;
+  border-radius: var(--radius-sm) !important;
+  font-weight: 600 !important;
+  transition: var(--transition) !important;
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3) !important;
+}
+
+[data-testid="stDownloadButton"] button:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 20px rgba(34, 197, 94, 0.4) !important;
+}
+
+/* ── Tabs ───────────────────────────────────────────────────────────────── */
+[data-testid="stTabs"] [data-baseweb="tab-list"] {
+  background: var(--bg-secondary) !important;
+  border-radius: var(--radius-md) !important;
+  border: 1px solid var(--border) !important;
+  padding: 4px !important;
+  gap: 4px !important;
+}
+
+[data-testid="stTabs"] [data-baseweb="tab"] {
+  background: transparent !important;
+  color: var(--text-secondary) !important;
+  border-radius: var(--radius-sm) !important;
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 500 !important;
+  transition: var(--transition) !important;
+  border: none !important;
+}
+
+[data-testid="stTabs"] [data-baseweb="tab"]:hover {
+  background: rgba(59, 130, 246, 0.1) !important;
+  color: var(--accent-blue) !important;
+}
+
+[data-testid="stTabs"] [aria-selected="true"] {
+  background: var(--accent-blue) !important;
+  color: white !important;
+  font-weight: 600 !important;
+}
+
+[data-testid="stTabs"] [data-baseweb="tab-highlight"] {
+  display: none !important;
+}
+
+/* ── Expanders ─────────────────────────────────────────────────────────── */
+[data-testid="stExpander"] {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-md) !important;
+  overflow: hidden !important;
+}
+
+[data-testid="stExpander"] summary {
+  color: var(--text-primary) !important;
+  font-weight: 600 !important;
+  font-family: 'Inter', sans-serif !important;
+}
+
+/* ── Dataframes ────────────────────────────────────────────────────────── */
+[data-testid="stDataFrame"] {
+  border-radius: var(--radius-md) !important;
+  overflow: hidden !important;
+  border: 1px solid var(--border) !important;
+}
+
+/* ── File Uploader ─────────────────────────────────────────────────────── */
+[data-testid="stFileUploader"] {
+  background: var(--bg-card) !important;
+  border: 2px dashed var(--border) !important;
+  border-radius: var(--radius-lg) !important;
+  transition: var(--transition) !important;
+}
+
+[data-testid="stFileUploader"]:hover {
+  border-color: var(--accent-blue) !important;
+  background: rgba(59, 130, 246, 0.05) !important;
+}
+
+/* ── Alert / Info boxes ─────────────────────────────────────────────────── */
+[data-testid="stAlert"] {
+  border-radius: var(--radius-md) !important;
+  font-family: 'Inter', sans-serif !important;
+}
+
+/* ── Divider ────────────────────────────────────────────────────────────── */
+hr {
+  border: none !important;
+  border-top: 1px solid var(--border) !important;
+  margin: 1.5rem 0 !important;
+}
+
+/* ── Plotly charts dark background fix ─────────────────────────────────── */
+.stPlotlyChart {
+  border-radius: var(--radius-md) !important;
+  overflow: hidden !important;
+}
+
+/* ── Scrollbar ─────────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* ── Spinner ────────────────────────────────────────────────────────────── */
+[data-testid="stSpinner"] {
+  color: var(--accent-blue) !important;
+}
+
+/* ── Radio buttons ─────────────────────────────────────────────────────── */
+[data-testid="stRadio"] label {
+  color: var(--text-secondary) !important;
+  font-family: 'Inter', sans-serif !important;
+}
+
+/* ── Progress bar ─────────────────────────────────────────────────────── */
+[data-testid="stProgress"] > div > div {
+  background: var(--grad-blue) !important;
+  border-radius: 4px !important;
+}
