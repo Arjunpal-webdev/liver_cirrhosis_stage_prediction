@@ -178,14 +178,13 @@ def render_model_analytics_page(
             ("Best Model",    "XGBoost",  "Tuned with RandomizedSearchCV", "#3b82f6", "🤖", m_col1),
             ("Accuracy",      "91.0%",    "On hold-out test set",          "#22c55e", "✅", m_col2),
             ("Macro ROC AUC", "0.9798",   "Multi-class one-vs-rest",       "#a855f7", "📈", m_col3),
-            ("Classes",       "3 Stages", "Stage 1, 2, 3",                 "#f59e0b", "🎯", m_col4),
+            ("Classes",       "3 Stages", "Stage 1, 2, 3",                 "#f59e0b", "📋", m_col4),
         ]
         for title, value, subtitle, color, icon, col in metrics_data:
             with col:
-                st.markdown(render_metric_card(title, value, subtitle, color, icon),
-                            unsafe_allow_html=True)
+                st.html(render_metric_card(title, value, subtitle, color, icon))
 
-        st.markdown("<br>", unsafe_allow_html=True)
+        st.html("<br>")
 
         m2c1, m2c2, m2c3, m2c4 = st.columns(4)
         secondary = [
@@ -196,17 +195,16 @@ def render_model_analytics_page(
         ]
         for title, value, subtitle, color, icon, col in secondary:
             with col:
-                st.markdown(render_metric_card(title, value, subtitle, color, icon),
-                            unsafe_allow_html=True)
+                st.html(render_metric_card(title, value, subtitle, color, icon))
 
-        st.markdown("<br>", unsafe_allow_html=True)
+        st.html("<br>")
 
         # Dataset info + hyperparams — both fully self-contained HTML blocks
         render_section_header("Dataset Information", icon="🗃️")
         d_col1, d_col2 = st.columns(2, gap="large")
 
         with d_col1:
-            st.markdown(_kv_card("📁 Dataset Details", {
+            st.html(_kv_card("📁 Dataset Details", {
                 "Dataset":        "Liver Cirrhosis Dataset",
                 "Source":         "Clinical trial data (PBC study)",
                 "Total Samples":  "~9,641",
@@ -214,10 +212,10 @@ def render_model_analytics_page(
                 "Target Variable":"Stage (1, 2, 3)",
                 "Features":       "18 clinical features",
                 "Missing Values": "Imputed with median",
-            }), unsafe_allow_html=True)
+            }))
 
         with d_col2:
-            st.markdown(_kv_card("⚙️ Best Model Hyperparameters", {
+            st.html(_kv_card("⚙️ Best Model Hyperparameters", {
                 "subsample":       "0.8",
                 "n_estimators":    "200",
                 "max_depth":       "7",
@@ -227,7 +225,7 @@ def render_model_analytics_page(
                 "objective":       "multi:softprob",
                 "eval_metric":     "mlogloss",
                 "Tuning":          "RandomizedSearchCV (50 iter, 3-fold)",
-            }, value_color="#60a5fa", mono=True), unsafe_allow_html=True)
+            }, value_color="#60a5fa", mono=True))
 
         render_stage_legend()
 
@@ -282,7 +280,7 @@ def render_model_analytics_page(
                 medals[i], row["Model"], row["ROC_AUC"], row["Accuracy"],
                 bool(row.get("Is_Best", False))
             )
-        st.markdown(rankings_html, unsafe_allow_html=True)
+        st.html(rankings_html)
 
     # ═════════════════════════════════════════════════════════════════════════
     # TAB 3 — ROC AUC ANALYSIS
@@ -305,12 +303,11 @@ def render_model_analytics_page(
         ]
         for i, (title, val, color, icon) in enumerate(auc_data):
             with auc_cols[i]:
-                st.markdown(
-                    render_metric_card(title, val, "XGBoost best model", color, icon),
-                    unsafe_allow_html=True
+                st.html(
+                    render_metric_card(title, val, "XGBoost best model", color, icon)
                 )
 
-        st.markdown("<br>", unsafe_allow_html=True)
+        st.html("<br>")
 
         render_section_header("Multi-Class ROC Curves — Best XGBoost", icon="📈")
         roc_fig = analytics_service.build_roc_curve_plotly()
@@ -341,24 +338,20 @@ def render_model_analytics_page(
 
         cm_cols = st.columns(4)
         with cm_cols[0]:
-            st.markdown(render_metric_card("Accuracy",     f"{accuracy:.1f}%",
-                                           "Overall correct", "#22c55e", "✅"),
-                        unsafe_allow_html=True)
+            st.html(render_metric_card("Accuracy",     f"{accuracy:.1f}%",
+                                           "Overall correct", "#22c55e", "✅"))
         with cm_cols[1]:
-            st.markdown(render_metric_card("Correct",      f"{correct:,}",
-                                           f"of {total:,}", "#3b82f6", "🎯"),
-                        unsafe_allow_html=True)
+            st.html(render_metric_card("Correct",      f"{correct:,}",
+                                           f"of {total:,}", "#3b82f6", "✔️"))
         with cm_cols[2]:
             errors = total - correct
-            st.markdown(render_metric_card("Errors",       f"{errors:,}",
-                                           f"{errors/total*100:.1f}% error rate", "#ef4444", "❌"),
-                        unsafe_allow_html=True)
+            st.html(render_metric_card("Errors",       f"{errors:,}",
+                                           f"{errors/total*100:.1f}% error rate", "#ef4444", "❌"))
         with cm_cols[3]:
-            st.markdown(render_metric_card("Test Samples", f"{total:,}",
-                                           "Hold-out test set", "#a855f7", "📊"),
-                        unsafe_allow_html=True)
+            st.html(render_metric_card("Test Samples", f"{total:,}",
+                                           "Hold-out test set", "#a855f7", "📊"))
 
-        st.markdown("<br>", unsafe_allow_html=True)
+        st.html("<br>")
 
         cm_fig = analytics_service.build_confusion_matrix_heatmap(cm_data)
         st.plotly_chart(cm_fig, use_container_width=True)
@@ -369,11 +362,11 @@ def render_model_analytics_page(
         for i, (label, color) in enumerate(zip(labels, class_colors)):
             with class_cols[i]:
                 class_acc = cm[i, i] / cm[i, :].sum() * 100
-                st.markdown(render_metric_card(
+                st.html(render_metric_card(
                     label, f"{class_acc:.1f}%",
                     f"Recall: {cm[i,i]}/{cm[i,:].sum()} correct",
-                    color, "🎯"
-                ), unsafe_allow_html=True)
+                    color, "📊"
+                ))
 
         with st.expander("📋 Raw Confusion Matrix Data", expanded=False):
             cm_display = pd.DataFrame(
@@ -394,21 +387,21 @@ def render_model_analytics_page(
 
         oa_col1, oa_col2, oa_col3 = st.columns([1, 2, 1])
         with oa_col2:
-            st.markdown(f"""
-            <div style="background:linear-gradient(135deg,rgba(34,197,94,0.12),rgba(59,130,246,0.08));
-                        border:1px solid rgba(34,197,94,0.25);border-radius:16px;
-                        padding:1.5rem;text-align:center;margin-bottom:1.5rem;">
-                <div style="font-size:0.8rem;color:#94a3b8;text-transform:uppercase;
-                            letter-spacing:0.08em;font-weight:600;margin-bottom:0.3rem;">
-                    Overall Accuracy
-                </div>
-                <div style="font-size:3rem;font-weight:900;color:#22c55e;
-                            letter-spacing:-0.04em;">{overall_acc*100:.1f}%</div>
-                <div style="font-size:0.8rem;color:#64748b;margin-top:0.25rem;">
-                    on 1,928 test samples
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
+            st.html(f"""
+<div style="background:linear-gradient(135deg,rgba(34,197,94,0.12),rgba(59,130,246,0.08));
+            border:1px solid rgba(34,197,94,0.25);border-radius:16px;
+            padding:1.5rem;text-align:center;margin-bottom:1.5rem;">
+    <div style="font-size:0.8rem;color:#94a3b8;text-transform:uppercase;
+                letter-spacing:0.08em;font-weight:600;margin-bottom:0.3rem;">
+        Overall Accuracy
+    </div>
+    <div style="font-size:3rem;font-weight:900;color:#22c55e;
+                letter-spacing:-0.04em;">{overall_acc*100:.1f}%</div>
+    <div style="font-size:0.8rem;color:#64748b;margin-top:0.25rem;">
+        on 1,928 test samples
+    </div>
+</div>
+""")
 
         classes       = ["Stage 1", "Stage 2", "Stage 3"]
         class_colors  = ["#22c55e", "#f59e0b", "#ef4444"]
@@ -418,7 +411,7 @@ def render_model_analytics_page(
         for cls, color in zip(classes, class_colors):
             if cls in report_data:
                 class_cards_html += _class_report_card(cls, color, report_data[cls])
-        st.markdown(class_cards_html, unsafe_allow_html=True)
+        st.html(class_cards_html)
 
         render_section_header("Macro & Weighted Averages", icon="📐")
         avg_cols = st.columns(2)
@@ -426,9 +419,8 @@ def render_model_analytics_page(
         for i, (avg_key, color) in enumerate(avg_entries):
             if avg_key in report_data:
                 with avg_cols[i]:
-                    st.markdown(
-                        _avg_card(avg_key.title(), color, report_data[avg_key]),
-                        unsafe_allow_html=True
+                    st.html(
+                        _avg_card(avg_key.title(), color, report_data[avg_key])
                     )
 
         render_section_header("Metrics Comparison — Per Class", icon="📊")

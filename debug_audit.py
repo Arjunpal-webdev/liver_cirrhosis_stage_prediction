@@ -1,57 +1,71 @@
 """
-Deep audit: find every st.markdown block and count unclosed HTML tags.
+Scan every st.markdown block in all Python files for unclosed/orphaned HTML divs.
 """
-import re, os
+import re, os, glob
 
-files = [
-    'app/pages/single_prediction.py',
-    'app/pages/batch_prediction.py',
-    'app/pages/model_analytics.py',
-    'app/components/ui_components.py',
-]
-
-for filepath in files:
+def audit_file(filepath):
     with open(filepath, 'r', encoding='utf-8') as f:
         content = f.read()
+    
+    issues = []
+    
+    # Find all st.markdown(...) calls - handle multi-line
+    # Strategy: find 'st.markdown(' then collect until balanced parens
+    i = 0
+    while i < len(content):
+        idx = content.find('st.markdown(', i)
+        if idx == -1:
+            break
+        
+        # Collect the full call by tracking paren depth
+        start = idx
+        pos = idx + len('st.markdown(')
+        depth = 1
+        in_str = False
+        str_char = None
+        
+        while pos < len(content) and depth > 0:
+            ch = content[pos]
+            if in_str:
+                if ch == str_char and content[pos-1] != '\\':
+                    in_str = False
+            else:
+                if ch in ('"', "'"):
+                    in_str = True
+                    str_char = ch
+                elif ch == '(':
+                    depth += 1
+                elif ch == ')':
+                    depth -= 1
+            pos += 1
+        
+        block = content[start:pos]
+        line_no = content[:start].count('\n') + 1
+        
+        # Count div opens and closes in this block
+        opens  = len(re.findall(r'<div[\s>]', block))
+        closes = len(re.findall(r'</div>', block))
+        
+        if opens != closes:
+            issues.append((line_no, opens, closes, block[:200].replace('\n',' ')))
+        
+        i = pos
+    
+    return issues
 
-    # Find every st.markdown(..., unsafe_allow_html=True) block
-    # using a simple line-by-line approach
-    lines = content.split('\n')
-    in_markdown = False
-    html_buf = []
-    start_line = 0
-    paren_depth = 0
 
-    for i, line in enumerate(lines, 1):
-        if not in_markdown:
-            if 'st.markdown(' in line:
-                in_markdown = True
-                start_line = i
-                html_buf = [line]
-                paren_depth = line.count('(') - line.count(')')
-                if paren_depth <= 0:
-                    in_markdown = False
-                    block = '\n'.join(html_buf)
-                    check_block(filepath, start_line, block)
-                    html_buf = []
-        else:
-            html_buf.append(line)
-            paren_depth += line.count('(') - line.count(')')
-            if paren_depth <= 0:
-                in_markdown = False
-                block = '\n'.join(html_buf)
-                # Extract the HTML content
-                html_content = ''.join(html_buf)
-                # Count div opens vs closes
-                opens = html_content.count('<div') + html_content.count('<div\n')
-                closes = html_content.count('</div>')
-                if opens != closes:
-                    print(f"\n{'='*60}")
-                    print(f"FILE: {filepath}  LINE: {start_line}")
-                    print(f"  OPENS={opens}  CLOSES={closes}  MISMATCH!")
-                    # Print first 3 lines
-                    for ln in html_buf[:5]:
-                        print(f"    {ln}")
-                html_buf = []
+files = glob.glob('app/**/*.py', recursive=True) + glob.glob('services/*.py') + ['main.py']
 
-print("\nAudit complete.")
+any_issues = False
+for f in sorted(files):
+    issues = audit_file(f)
+    if issues:
+        any_issues = True
+        print(f"\n{'='*60}")
+        print(f"FILE: {f}")
+        for line_no, opens, closes, snippet in issues:
+            print(f"  Line {line_no}: OPENS={opens} CLOSES={closes}")
+            print(f"  Snippet: {snippet[:150]}...")
+
+if not any_issues:
+    print("ALL OK - No HTML div mismatches found in any file.")

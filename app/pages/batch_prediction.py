@@ -132,20 +132,20 @@ def render_batch_prediction_page(
     # Summary stats
     stat_cols = st.columns(4)
     with stat_cols[0]:
-        st.markdown(render_metric_card("Rows", f"{len(raw_df):,}", "Patients uploaded",
-                                       "#3b82f6", "👥"), unsafe_allow_html=True)
+        st.html(render_metric_card("Rows", f"{len(raw_df):,}", "Patients uploaded",
+                                       "#3b82f6", "👥"))
     with stat_cols[1]:
-        st.markdown(render_metric_card("Columns", str(len(raw_df.columns)), "Found in CSV",
-                                       "#06b6d4", "📊"), unsafe_allow_html=True)
+        st.html(render_metric_card("Columns", str(len(raw_df.columns)), "Found in CSV",
+                                       "#06b6d4", "📊"))
     with stat_cols[2]:
         missing_str = "✅ 0" if not missing_cols else f"❌ {len(missing_cols)}"
         color = "#22c55e" if not missing_cols else "#ef4444"
-        st.markdown(render_metric_card("Missing Cols", missing_str, "Required columns",
-                                       color, "🔍"), unsafe_allow_html=True)
+        st.html(render_metric_card("Missing Cols", missing_str, "Required columns",
+                                       color, "🔍"))
     with stat_cols[3]:
         extra_str = str(len(extra_cols)) if extra_cols else "0"
-        st.markdown(render_metric_card("Extra Cols", extra_str, "Will be ignored",
-                                       "#f59e0b", "➕"), unsafe_allow_html=True)
+        st.html(render_metric_card("Extra Cols", extra_str, "Will be ignored",
+                                       "#f59e0b", "➕"))
 
     if missing_cols:
         st.error(f"❌ **Missing required columns:** `{'`, `'.join(missing_cols)}`")
@@ -163,8 +163,7 @@ def render_batch_prediction_page(
         st.dataframe(raw_df.head(10), use_container_width=True, hide_index=True)
 
     # ── Run Batch Predictions ─────────────────────────────────────────────
-    st.markdown("<hr style='border: none; border-top: 1px solid rgba(148,163,184,0.12); margin: 1rem 0;'>",
-                unsafe_allow_html=True)
+    st.html("<hr style='border: none; border-top: 1px solid rgba(148,163,184,0.12); margin: 1rem 0;'>")
 
     run_col1, run_col2, run_col3 = st.columns([1, 2, 1])
     with run_col2:
@@ -218,29 +217,28 @@ def render_batch_prediction_page(
 
     summary_cols = st.columns(4)
     with summary_cols[0]:
-        st.markdown(render_metric_card("Total Predicted", f"{len(results_df):,}",
-                                       "Patients", "#3b82f6", "👥"), unsafe_allow_html=True)
+        st.html(render_metric_card("Total Predicted", f"{len(results_df):,}",
+                                       "Patients", "#3b82f6", "👥"))
     with summary_cols[1]:
         s1 = stage_counts.get("Stage 1", 0)
-        st.markdown(render_metric_card("Stage 1", str(s1),
+        st.html(render_metric_card("Stage 1", str(s1),
                                        f"{s1/len(results_df)*100:.1f}% of patients",
-                                       "#22c55e", "🟢"), unsafe_allow_html=True)
+                                       "#22c55e", "🟢"))
     with summary_cols[2]:
         s2 = stage_counts.get("Stage 2", 0)
-        st.markdown(render_metric_card("Stage 2", str(s2),
+        st.html(render_metric_card("Stage 2", str(s2),
                                        f"{s2/len(results_df)*100:.1f}% of patients",
-                                       "#f59e0b", "🟡"), unsafe_allow_html=True)
+                                       "#f59e0b", "🟡"))
     with summary_cols[3]:
         s3 = stage_counts.get("Stage 3", 0)
-        st.markdown(render_metric_card("Stage 3", str(s3),
+        st.html(render_metric_card("Stage 3", str(s3),
                                        f"{s3/len(results_df)*100:.1f}% of patients",
-                                       "#ef4444", "🔴"), unsafe_allow_html=True)
+                                       "#ef4444", "🔴"))
 
     # Average confidence
-    st.markdown(
+    st.html(
         render_metric_card("Avg Confidence", f"{avg_confidence:.1f}%",
-                           "Mean prediction confidence", "#a855f7", "🎯"),
-        unsafe_allow_html=True,
+                           "Mean prediction confidence", "#a855f7", "💡"),
     )
 
     # ── Stage Distribution Chart ──────────────────────────────────────────
@@ -287,7 +285,7 @@ def render_batch_prediction_page(
     )
 
     # ── Download Button ───────────────────────────────────────────────────
-    st.markdown("<br>", unsafe_allow_html=True)
+    st.html("<br>")
     dl_col1, dl_col2, dl_col3 = st.columns([1, 2, 1])
     with dl_col2:
         csv_buffer = io.StringIO()

@@ -41,20 +41,20 @@ def render_single_prediction_page(
     )
 
     # ── Section label (self-contained HTML — NOT inside the form) ──────────
-    st.markdown("""
-    <div style="
-        background: rgba(30,41,59,0.5);
-        border: 1px solid rgba(148,163,184,0.12);
-        border-left: 4px solid #3b82f6;
-        border-radius: 12px;
-        padding: 0.7rem 1.2rem;
-        margin: 0.5rem 0 0.5rem 0;
-        display: flex; align-items: center; gap: 0.6rem;
-    ">
-        <span style="font-size:1.1rem;">👤</span>
-        <span style="color:#f1f5f9; font-weight:700; font-size:0.95rem;">Patient Numerical Features</span>
-    </div>
-    """, unsafe_allow_html=True)
+    st.html("""
+<div style="
+    background: rgba(30,41,59,0.5);
+    border: 1px solid rgba(148,163,184,0.12);
+    border-left: 4px solid #3b82f6;
+    border-radius: 12px;
+    padding: 0.7rem 1.2rem;
+    margin: 0.5rem 0 0.5rem 0;
+    display: flex; align-items: center; gap: 0.6rem;
+">
+    <span style="font-size:1.1rem;">👤</span>
+    <span style="color:#f1f5f9; font-weight:700; font-size:0.95rem;">Patient Numerical Features</span>
+</div>
+""")
 
     # ── Patient Data Input Form ────────────────────────────────────────────
     with st.form(key="single_prediction_form", clear_on_submit=False):
@@ -219,7 +219,7 @@ def render_single_prediction_page(
     processed_df = st.session_state["last_processed_df"]
 
     st.divider()
-    render_section_header("Prediction Results", icon="🎯")
+    render_section_header("Prediction Results", icon="🔬")
 
     # ── Main result + gauge ───────────────────────────────────────────────
     res_col1, res_col2 = st.columns([1.2, 0.8], gap="large")
@@ -251,15 +251,14 @@ def render_single_prediction_page(
     stage_icons  = {"Stage 1": "🟢", "Stage 2": "🟡", "Stage 3": "🔴"}
     for i, (stage, prob) in enumerate(result["probabilities"].items()):
         with prob_cols[i]:
-            st.markdown(
+            st.html(
                 render_metric_card(
                     title=stage,
                     value=f"{prob*100:.1f}%",
                     subtitle="Prediction probability",
                     color=stage_colors[stage],
                     icon=stage_icons[stage],
-                ),
-                unsafe_allow_html=True,
+                )
             )
 
     # ── Age Conversion Note ───────────────────────────────────────────────
@@ -315,7 +314,7 @@ def render_single_prediction_page(
                     for _, row in pos_df.iterrows():
                         badges_html += render_feature_badge(row["Feature"], row["Value"], row["SHAP_Value"])
                     badges_html += "</div>"
-                    st.markdown(badges_html, unsafe_allow_html=True)
+                    st.html(badges_html)
                 else:
                     st.info("No positive SHAP contributors found.")
 
@@ -327,7 +326,7 @@ def render_single_prediction_page(
                     for _, row in neg_df.iterrows():
                         badges_html += render_feature_badge(row["Feature"], row["Value"], row["SHAP_Value"])
                     badges_html += "</div>"
-                    st.markdown(badges_html, unsafe_allow_html=True)
+                    st.html(badges_html)
                 else:
                     st.info("No negative SHAP contributors found.")
 

@@ -13,7 +13,7 @@ def load_css(css_path: Path | str) -> None:
     if css_path.exists():
         with open(css_path, "r", encoding="utf-8") as f:
             css = f.read()
-        st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
+        st.html(f"<style>{css}</style>")
     else:
         st.warning(f"CSS file not found: {css_path}")
 

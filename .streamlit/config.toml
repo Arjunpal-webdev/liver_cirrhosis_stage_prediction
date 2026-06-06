@@ -15,4 +15,4 @@ enableXsrfProtection = true
 gatherUsageStats = false
 
 [runner]
-magicEnabled = true
+magicEnabled = false
