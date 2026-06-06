@@ -1,4 +1,4 @@
-# 🫀 Liver Cirrhosis Stage Prediction & Analytics Dashboard
+# 🩺Liver Cirrhosis Stage Prediction & Analytics Dashboard
 
 > **AI-powered clinical decision support system** for predicting liver cirrhosis stages using a tuned XGBoost model with SHAP explainability.
 
