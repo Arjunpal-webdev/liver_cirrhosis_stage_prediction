@@ -1,8 +1,8 @@
 """
 Model Analytics Page — Liver Cirrhosis Stage Prediction Dashboard.
 Clean rewrite: All HTML is fully self-contained in single st.markdown calls.
-7 tabs: Overview, Comparison, ROC AUC, Confusion Matrix,
-        Classification Report, Feature Importance, Decision Boundary.
+6 tabs: Overview, Comparison, ROC AUC, Confusion Matrix,
+        Classification Report, Feature Importance.
 """
 
 import streamlit as st
@@ -149,7 +149,7 @@ def render_model_analytics_page(
     preprocessing_service: PreprocessingService,
     analytics_service: AnalyticsService,
 ):
-    """Render the full Model Analytics page with 7 tabs."""
+    """Render the full Model Analytics page with 6 tabs."""
 
     render_section_header(
         "Model Analytics & Performance",
@@ -164,7 +164,6 @@ def render_model_analytics_page(
         "🔢 Confusion Matrix",
         "📋 Classification Report",
         "🌟 Feature Importance",
-        "🗺️ Decision Boundary",
     ])
 
     # ═════════════════════════════════════════════════════════════════════════
@@ -518,28 +517,3 @@ def render_model_analytics_page(
             margin={"t": 30, "b": 10, "l": 10, "r": 10},
         )
         st.plotly_chart(treemap_fig, use_container_width=True)
-
-    # ═════════════════════════════════════════════════════════════════════════
-    # TAB 7 — DECISION BOUNDARY
-    # ═════════════════════════════════════════════════════════════════════════
-    with tabs[6]:
-        render_section_header("Decision Boundary Visualization", icon="🗺️")
-
-        render_info_banner(
-            "PCA (Principal Component Analysis) reduces the 18-dimensional feature space to 2D "
-            "for visualization. Colors represent actual cirrhosis stages.",
-            color="#3b82f6", icon="📐"
-        )
-
-        with st.spinner("Generating visualization..."):
-            pca_fig = analytics_service.build_pca_visualization()
-
-        render_stage_legend()
-        st.plotly_chart(pca_fig, use_container_width=True)
-
-        render_info_banner(
-            "Each point represents a patient from the dataset. "
-            "Clear clusters indicate the XGBoost model can linearly separate the stages well "
-            "even in a reduced 2D projection.",
-            color="#22c55e", icon="💡"
-        )
