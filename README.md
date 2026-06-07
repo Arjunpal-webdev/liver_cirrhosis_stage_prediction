@@ -194,7 +194,6 @@ Display Results + SHAP Explanations
 4. **Confusion Matrix** — Interactive heatmap with counts & percentages
 5. **Classification Report** — Per-class precision, recall, F1, support
 6. **Feature Importance** — Top 10/15/all features, treemap visualization
-7. **Decision Boundary** — PCA 2D projection of the dataset
 
 ---
 
